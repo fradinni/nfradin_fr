@@ -9,8 +9,8 @@ window.userIsAdmin = function(callbacks) {
 
 		var user = new UserModel({_id: userId});
 		user.fetch({
-			success: function() {
-				console.log("User was found: " + user.get('username'));
+			success: function(model) {
+				console.log("User was found: " + model.get('username'));
 				if(callbacks) callbacks["success"](user);
 			},
 			error: function() {

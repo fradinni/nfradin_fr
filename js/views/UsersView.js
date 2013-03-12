@@ -39,7 +39,13 @@ window.UsersView = Backbone.View.extend({
 		// New User
 		if(!formData["_id"]) {
 			var user = new UserModel(formData);
-			user.save({}, { 
+			user.save();
+			/*
+			$.ajax({
+				url: 'http://localhost:10010/user',
+				type: "POST",
+				async: true,
+				data: formData,
 				success: function() { 
 					self.model.fetch(); 
 				}, 
@@ -47,6 +53,7 @@ window.UsersView = Backbone.View.extend({
 					alert('Unable to add user !');
 				} 
 			});
+			*/
 		} 
 
 		// Edit user
@@ -62,10 +69,6 @@ window.UsersView = Backbone.View.extend({
 				} 
 			});
 		}
-
-		
-		//user.set(formDatas);
-		
 
 		// Hide modal
 		$("#createUserModal").find(':input').each(function() { $(this).val(''); });

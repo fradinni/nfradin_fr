@@ -68,7 +68,7 @@ var deleteUser = function(req, res, next) {
 			throw err;
 		}
 		if(result) {
-			res.send(result);
+			res.send(200, result);
 		}
 	});
 
@@ -85,13 +85,15 @@ var updateUser = function(req, res, next) {
   	user.username = req.params.username;
   	user.password = req.params.password;
   	user.email 	= req.params.email;
-
-  	//db.collection('users').updateById(req.params.id, {$set: user} );
+  	user.firstname 	= req.params.firstname;
+  	user.lastname 	= req.params.lastname;
+  	user.roles 	= req.params.roles.split(',');
 
   	db.collection('users').update({ _id: new ObjectID(req.params.id) }, {$set: user}, function(err, result) {
-  		if(err) throw err;
-
-  		console.log("res = " + result);
+  		if(err || result == 0) {
+  			res.send(402);
+  		}
+  		res.send(200, result);
   	});
 
 	return next();
@@ -164,7 +166,6 @@ var logRequest = function(req) {
 	var method = req.method;
 	var url = req.url;
 	var remoteAddr = req.connection.remoteAddress;
-	var params = req.params;
 
 	console.log("\n-> [" + method + "] '" + url + "':");
 	console.log("      - from  : " + remoteAddr);
@@ -190,6 +191,21 @@ var formatDate = function(date) {
 }
 
 
+var optsReq = function(req, res, next) {
+	logRequest(req);
+    var headers = {};
+    // IE8 does not allow domains to be specified, just the *
+    // headers["Access-Control-Allow-Origin"] = req.headers.origin;
+    res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Credentials", false);
+    res.header("Access-Control-Max-Age", '86400'); // 24 hours
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+    res.send(200);
+
+    return next();
+}
 
 
 //
@@ -197,7 +213,7 @@ var formatDate = function(date) {
 //
 var server = restify.createServer();
 server.use(restify.bodyParser());
-server.use(restify.fullResponse());
+//server.use(allowCrossDomain);
 
 server.post('/user', createUser);
 server.get('/user/:id', getUser);
@@ -205,6 +221,9 @@ server.del('/user/:id', deleteUser);
 server.put('/user/:id', updateUser);
 server.get('/users', getUsers);
 server.post('/auth', auth);
+
+server.opts('/user', optsReq);
+server.opts('/user/:id', optsReq);
 
 server.listen(10010, function () {
   console.log('%s listening at %s', server.name, server.url);
