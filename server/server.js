@@ -44,7 +44,7 @@ var createUser = function(req, res, next) {
 		  		}
 		  		if(result) {
 		  			res.send(result);
-		  			console.log(result);
+		  			console.log(200, result);
 		  			console.log("User '" + user.username + "' added !");
 		  		}
 		  	});
@@ -99,14 +99,20 @@ var getUser = function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
+	// Log current request
+	logRequest(req, "{ _id: "+req.params.id+" }");
+
 	db.collection('users').findOne({_id: new ObjectID(req.params.id)}, function(err, result) {
 		if(err) {
 			res.send(err);
   			throw err;
 		}
-		if(result) {
-			console.log("User found: " + result.username);
+		else if(result) {
+			console.log("      => User found: " + result.username);
 			res.send(200, result);
+		} else {
+			console.log("      X> User not found !");
+			res.send(404);
 		}
 	});
 
@@ -150,6 +156,37 @@ var auth = function(req, res, next) {
 
 	return next();
 };
+
+
+var logRequest = function(req, paramsStr) {
+	var method = req.method;
+	var url = req.url;
+	var remoteAddr = req.connection.remoteAddress;
+	var params = req.params;
+
+	console.log("\n-> [" + method + "] '" + url + "':");
+	console.log("      - from  : " + remoteAddr);
+	console.log("      - params: " + paramsStr);
+}
+
+var formatDate = function(date) {
+	var day = date.getDate() + '';
+	var month = (date.getMonth() + 1) + '';
+	var year = date.getFullYear() + '';
+	var hours = date.getHours() + '';
+	var minute = date.getMinutes() + '';
+  	var seconde = date.getSeconds() + '';
+
+  	day = day.length == 1 ? '0' + day : day;
+  	month = month.length == 1 ? '0' + month : month;
+  	hours = hours.length == 1 ? '0' + hours : hours;
+  	minute = minute.length == 1 ? '0' + minute : minute;
+  	seconde = seconde.length == 1 ? '0' + seconde : seconde;
+
+	var dateStr = day+"/"+month+"/"+year+" "+hours+":"+minute+":"+seconde;
+
+	return dateStr;
+}
 
 
 

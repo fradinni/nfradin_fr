@@ -9,6 +9,10 @@ window.UsersView = Backbone.View.extend({
 		}		
 	},
 
+	events: {
+		"click #add_user": "addUser"
+	},
+
 	initialize: function() {
 		this.template = _.template(this.getTemplate("users/list"));
 	},
@@ -24,41 +28,32 @@ window.UsersView = Backbone.View.extend({
 		return this;
 	},
 
+	addUser: function(e) {
+		e.preventDefault();
+
+		// Serialize form datas
+		var user = new UserModel($("#create-user-form").serializeObject());
+		//user.set(formDatas);
+		user.save({ error: function(){alert('Unable to add user !');} });
+		this.model.fetch();
+
+		// Hide modal
+		$("#createUserModal").find(':input').each(function() { $(this).val(''); });
+		$("#createUserModal").modal('hide');
+	},
+
 	deleteUser: function(event, view, params) {
 		event.preventDefault();
+		var user = this.model.get(params['_id']);
 		var res = confirm("Delete user '"+params['username']+"' ?");
-		var self = this;
 		if(res) {
-			var nbModels = this.model.models.length;
-			$.ajax({
-				cache: false,
-				url: 'http://localhost:10010/user/'+params['_id'],
-				async: false,
-				type: 'DELETE',
-				success: function() {},
-				error: function(err) {
-					console.log("Err :" + err);
-				}
-			});
-			self.model.fetch();
-			/*
-			var newNbModels = this.model.models.length;
-			if(newNbModels < nbModels) {
-				alert("User deleted !");
-			} else {
-				alert("Unable to deleted user !");
-			}			
-			*/	
+			user.destroy();	
 		} 
 	}
 });
 
 
 window.CreateUserView = Backbone.View.extend({
-
-	events: {
-		"click #add_user": "addUser"
-	},
 
 	initialize: function() {
 		this.template = _.template(this.getTemplate("users/create"));
@@ -67,32 +62,5 @@ window.CreateUserView = Backbone.View.extend({
 	render: function() {
 		$(this.el).html(this.template());
 		return this;
-	},
-
-	addUser: function(e) {
-		e.preventDefault();
-
-		// Serialize form datas
-		var formDatas = $("#create-user-form").serialize();
-		var self = this;
-
-		$.ajax({
-			url: 'http://localhost:10010/user',
-			method: 'post',
-			async: false,
-			data: formDatas,
-			success: function(data) {
-				console.log("User added: " + data[0]._id);
-				self.model.parentView.model.fetch();
-			},
-			error: function(err) {
-				console.error("Unable to add user: " + err);
-				alert("Unable to add user !");
-			}
-		})
-
-		// Hide modal
-		$("#createUserModal").find(':input').each(function() { $(this).val(''); });
-		$("#createUserModal").modal('hide');
 	}
 });
