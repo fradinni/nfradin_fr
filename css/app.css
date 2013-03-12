@@ -1,0 +1,91 @@
+body {
+	padding-top: 20px;
+}
+
+h5 {
+	font-size: 24px;
+	border-bottom: 1px solid black;
+	padding-bottom: 5px;
+}
+
+.pagination ul>li>a:hover, .pagination ul>li>span:hover {
+	background-color: #007fff !important;
+}
+
+.subhead {
+	margin-bottom: 10px;
+}
+
+.avatar {
+	text-align: center;
+}
+
+.main-nav {
+	background-color: #dfdfdf;
+	padding: 0px 2px;
+}
+
+.main-nav {
+	width: 100%;
+}
+
+.main-nav a:hover {
+	background-color: #007fff !important;
+}
+
+#admin-nav {
+	display: none;
+}
+
+.login-form {
+	border: 1px solid #ccc;
+}
+
+.form-actions {
+	margin: 0;
+}
+
+
+/*************************************************
+ *	ARTICLE STYLES
+ */
+.article {
+	border-left: 3px solid transparent;
+	padding-left: 10px;
+	margin: 30px 0px;
+	margin-left: -13px;
+	margin-bottom: 40px;
+}
+
+.article:hover {
+	cursor: pointer;
+	border-left: 3px solid #007fff;
+}
+
+.article .date {
+	margin-left: 20px;
+}
+
+.article .title {
+	font-weight: bold;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 2px;
+	margin-bottom: 10px;
+}
+
+.article .article_preview {
+	text-align: justify;
+}
+
+.article .footer {
+	margin-top: 10px;
+	padding-top: 5px;
+	border-top: 1px dashed #ccc;
+	font-size: 11px;
+	color: #bbb;
+}
+
+.article .footer .twitter-share-button {
+	vertical-align: bottom;
+	margin-left: 10px;
+}

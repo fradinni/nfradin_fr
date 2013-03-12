@@ -1,0 +1,20 @@
+<h5>Users list</h5>
+
+<div class="control-bar">
+	<a href="#createUserModal" data-toggle="modal" role="button" class="btn btn-success"><i class="icon-plus"></i> Add user...</a>
+</div>
+<br />
+<table class="table table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>_id</th>
+			<th>username</th>
+			<th>firstname</th>
+			<th>lastname</th>
+			<th>email</th>
+			<th>#action</th>
+		</tr>
+	</thead>
+	<tbody id="users-list" ds-item-template="users/list-item">
+	</tbody>
+</table>
