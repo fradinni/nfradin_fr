@@ -1,4 +1,4 @@
-window.userIsAdmin = function() {
+window.userIsAdmin = function(callbacks) {
 	//var isAdmin = getCookie("isAdmin");
 	var userId = getCookie("userId");
 	console.log("Check if user is admin: " + userId);
@@ -11,9 +11,11 @@ window.userIsAdmin = function() {
 		user.fetch({
 			success: function() {
 				console.log("User was found: " + user.get('username'));
+				if(callbacks) callbacks["success"](user);
 			},
 			error: function() {
 				console.log("User was not found: " + user.get('_id'));
+				if(callbacks) callbacks["error"]();
 			}
 		});
 

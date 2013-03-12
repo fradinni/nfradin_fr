@@ -4,13 +4,14 @@ window.UsersView = Backbone.View.extend({
 		"#users-list tr": {
 			dataSource: function(view){ return view.model; },
 			itemEvents: {
-				"click .delete": "deleteUser(_id, username)"
+				"click .delete": "deleteUser(_id, username)",
+				"click .edit": "editUser(_id, username)"
 			}
 		}		
 	},
 
 	events: {
-		"click #add_user": "addUser"
+		"click #save_user": "saveUser"
 	},
 
 	initialize: function() {
@@ -28,18 +29,62 @@ window.UsersView = Backbone.View.extend({
 		return this;
 	},
 
-	addUser: function(e) {
+	saveUser: function(e) {
 		e.preventDefault();
+		var self = this;
 
 		// Serialize form datas
-		var user = new UserModel($("#create-user-form").serializeObject());
+		var formData = $("#create-user-form").serializeObject();
+
+		// New User
+		if(!formData["_id"]) {
+			var user = new UserModel(formData);
+			user.save({}, { 
+				success: function() { 
+					self.model.fetch(); 
+				}, 
+				error: function(){
+					alert('Unable to add user !');
+				} 
+			});
+		} 
+
+		// Edit user
+		else {
+			var user = this.model.get(formData["_id"]);
+			user.save(formData, { 
+				success: function() { 
+					console.log("User updated !");
+					self.model.fetch(); 
+				}, 
+				error: function(){
+					alert('Unable to save user !');
+				} 
+			});
+		}
+
+		
 		//user.set(formDatas);
-		user.save({ error: function(){alert('Unable to add user !');} });
-		this.model.fetch();
+		
 
 		// Hide modal
 		$("#createUserModal").find(':input').each(function() { $(this).val(''); });
 		$("#createUserModal").modal('hide');
+	},
+
+	editUser: function(event, view, params) {
+		event.preventDefault();
+
+		var user = this.model.get(params['_id']);
+
+		// Fill form fields
+		$("#createUserModal").find(':input').each(function() { 
+			$(this).val(user.get($(this).attr('id'))); 
+		});
+
+
+		// Show modal
+		$("#createUserModal").modal('show');
 	},
 
 	deleteUser: function(event, view, params) {

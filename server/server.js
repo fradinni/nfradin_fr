@@ -20,6 +20,7 @@ var db = mongo.db(connectionString, {
 // USER Methods
 //
 var createUser = function(req, res, next) {
+	logRequest(req);
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -78,18 +79,19 @@ var updateUser = function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
+	logRequest(req);
+
 	var user = new Object();
-	user.id = req.params.id;
   	user.username = req.params.username;
   	user.password = req.params.password;
   	user.email 	= req.params.email;
 
-  	db.collection('users').update({ _id: new ObjectID(user.id) }, {
-  		'$set': {
-  			username: user.username, 
-  			password: user.password, 
-  			email: user.email
-  		}
+  	//db.collection('users').updateById(req.params.id, {$set: user} );
+
+  	db.collection('users').update({ _id: new ObjectID(req.params.id) }, {$set: user}, function(err, result) {
+  		if(err) throw err;
+
+  		console.log("res = " + result);
   	});
 
 	return next();
@@ -100,7 +102,7 @@ var getUser = function(req, res, next) {
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
 	// Log current request
-	logRequest(req, "{ _id: "+req.params.id+" }");
+	logRequest(req);
 
 	db.collection('users').findOne({_id: new ObjectID(req.params.id)}, function(err, result) {
 		if(err) {
@@ -108,10 +110,10 @@ var getUser = function(req, res, next) {
   			throw err;
 		}
 		else if(result) {
-			console.log("      => User found: " + result.username);
+			console.log("      - result: User found: " + result.username);
 			res.send(200, result);
 		} else {
-			console.log("      X> User not found !");
+			console.log("      - result: User not found !");
 			res.send(404);
 		}
 	});
@@ -158,7 +160,7 @@ var auth = function(req, res, next) {
 };
 
 
-var logRequest = function(req, paramsStr) {
+var logRequest = function(req) {
 	var method = req.method;
 	var url = req.url;
 	var remoteAddr = req.connection.remoteAddress;
@@ -166,7 +168,6 @@ var logRequest = function(req, paramsStr) {
 
 	console.log("\n-> [" + method + "] '" + url + "':");
 	console.log("      - from  : " + remoteAddr);
-	console.log("      - params: " + paramsStr);
 }
 
 var formatDate = function(date) {
@@ -196,31 +197,12 @@ var formatDate = function(date) {
 //
 var server = restify.createServer();
 server.use(restify.bodyParser());
-//server.use(restify.fullResponse());
-
-function unknownMethodHandler(req, res) {
-  if (req.method.toLowerCase() === 'options') {
-    var allowHeaders = ['Accept', 'Accept-Version', 'Content-Type', 'Api-Version'];
-
-    if (res.methods.indexOf('OPTIONS') === -1) res.methods.push('OPTIONS');
-
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Headers', allowHeaders.join(', '));
-    res.header('Access-Control-Allow-Methods', res.methods.join(', '));
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-
-    return res.send(204);
-  }
-  else
-    return res.send(new restify.MethodNotAllowedError());
-}
-
-server.on('MethodNotAllowed', unknownMethodHandler);
+server.use(restify.fullResponse());
 
 server.post('/user', createUser);
 server.get('/user/:id', getUser);
 server.del('/user/:id', deleteUser);
-server.put('/user', updateUser);
+server.put('/user/:id', updateUser);
 server.get('/users', getUsers);
 server.post('/auth', auth);
 
