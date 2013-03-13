@@ -51,6 +51,8 @@ var userExists = function(req, res, next, options) {
 var createUser = function(req, res, next) {
 	logRequest(req);
 
+	console.log("req.params.password = " +  req.params.password)
+
 	var user = new Object();
   	user.username = req.params.username;
   	user.password = req.params.password;

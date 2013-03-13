@@ -103,12 +103,9 @@ window.CreateArticleView = Backbone.View.extend({
 			var article = new ArticleModel();
 			article.save(formData, {
 				success: function (res) {
-					self.model.fetch({
-						success: function() {
-							alert('Article saved !');
-							self.render();
-						}
-					});
+					alert('Article saved !');
+					var articleId = JSON.parse(JSON.stringify(res))["0"]["_id"];
+					document.location.hash = "admin/articles/edit/"+articleId;
 		        }, 
 		        error: function(err) {
 		        	alert('Unable to save article !');

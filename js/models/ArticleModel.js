@@ -8,11 +8,11 @@ var ArticleModel = Backbone.Model.extend({
 		"lastUpdated": null,
 		"published": false
 	},
-	urlRoot: "http://localhost:10010/articles",
+	urlRoot: "http://nfradin.fr:10010/articles",
 })
 
 
 var ArticleCollection = Backbone.Collection.extend({
 	model: ArticleModel,
-	url: 'http://localhost:10010/articles'
+	url: 'http://nfradin.fr:10010/articles'
 });

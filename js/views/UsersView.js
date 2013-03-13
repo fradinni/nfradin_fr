@@ -49,12 +49,13 @@ window.UsersView = Backbone.View.extend({
 		var self = this;
 
 		// Serialize form datas
-		var formData = $("#article-form").serializeObject();
+		var formData = $("#create-user-form").serializeObject();
 
 		// New User
 		if(!formData["_id"]) {
 			// remove empty _id field from datas
 			delete formData["_id"];
+			formData["password"] = hex_md5(formData["password"]);
 
 			// Create and insert user
 			var user = new UserModel();
@@ -68,6 +69,9 @@ window.UsersView = Backbone.View.extend({
 		// Edit user
 		else {
 			var user = this.model.get(formData["_id"]);
+
+			if(formData["password"]) formData["password"] = hex_md5(formData["password"]);
+
 			user.save(formData, { 
 				success: function() { 
 					console.log("User updated !");

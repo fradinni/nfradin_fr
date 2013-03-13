@@ -1,3 +1,5 @@
+<a href="#admin/articles" class="btn"><i class="icon-arrow-left"></i> Back to articles list...</a>
+<br />
 <h5>New article</h5>
 
 <form id="article-form">
@@ -60,7 +62,7 @@
 			<div class="control-group">
 			    <label class="control-label" for="title">Author:</label>
 			    <div class="controls">
-			      	<input type="text" value="<%=this.author.get('username')%>">
+			      	<input type="text" value="<%=this.author.get('username')%>" disabled />
 			      	<input name="author" type="hidden" id="author" value="<%=this.author.get('_id')%>">
 			    </div>
 			</div>

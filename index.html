@@ -21,6 +21,7 @@
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/html_editor/parser_rules/advanced.js"></script>
     <script type="text/javascript" src="lib/html_editor/dist/wysihtml5-0.3.0.js"></script>
+    <script type="text/javascript" src="lib/md5-min.js"></script>
     
     <!-- Application Scripts -->
     <script type="text/javascript" src="js/models/UserModel.js"></script>
@@ -41,6 +42,8 @@
                 <div class="span6">
                     <h1>Nicolas FRADIN</h1>
                     <p>&nbsp;Le blog d'un Geek...</p>
+                    <br />
+                    <p id="login-name"></p>
                 </div>
                 <div class="span6 avatar">
                     <img class="" src="img/avatar.jpg" width="180" height="180" />
@@ -52,10 +55,13 @@
             <li class="active"><a href="#">Home page</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="#login">Login</a></li>
+            <li id="login-link"><a href="#login">Login</a></li>
+            <li id="admin-link" style="display: none;"><a href="#admin">Admin</a></li>
+            <li id="logout-link" style="display: none;"><a href="#logout">Logout</a></li>
         </ul>
 
         <ul class="nav nav-pills main-nav" id="admin-nav">
+            <li><a href="#">Home</a></li>
             <li class="active"><a href="#admin">Administration</a></li>
             <li><a href="#logout">Logout</a></li>
             <li class="pull-right"><a id="toggle-header" href="#"><i class="icon-minus"></i></a></li>

@@ -18,6 +18,15 @@ var AppRouter = Backbone.Router.extend({
 	home: function() {
 		$("#admin-nav").hide();
 		$("#site-nav").show();
+
+		userIsLoggedInWithRoles(['ROLE_ADMIN'], {
+			success: function(model) {
+				$("#login-link").hide();
+				$("#admin-link").show();
+				$("#logout-link").show();
+			}
+		});
+
 		this.changePage(new HomeView());	
 	},
 
@@ -78,7 +87,7 @@ var AppRouter = Backbone.Router.extend({
 						articleToEdit.fetch({
 							success: function(model) {
 								model.set({author: loggedInUser.get('_id')});
-								self.changePage(new CreateArticleView({model: model}))
+								self.changePage(new CreateArticleView({model: model}));
 							},
 							error: function(){
 								var articles = new ArticleCollection();
@@ -120,16 +129,26 @@ var AppRouter = Backbone.Router.extend({
         page.render();
         $('#page-content').append($(page.el));
         $('#page-content').fadeIn(100);
+
+        userIsLoggedIn({
+			success: function(user) {
+				$("#login-name").html("&nbsp;Welcome, <b>"+user.get('username')+"</b>");
+			}
+		});
     },
 
     login: function() {
     	this.changePage(new LoginView());
     },
 
-    logout: function() {
+    logout: function(e) {
     	setCookie("user-id", "");
     	setCookie("user-last-login", "");
-    	this.home();
+    	$("#login-name").html("");
+    	$("#logout-link").hide();
+    	$("#admin-link").hide();
+    	$("#login-link").show();
+    	document.location.hash = "";
     }
 });
 
@@ -149,5 +168,5 @@ $(document).ready(function() {
 	Backbone.history.start();
 
 	$("#toggle-header").unbind('click');
-	$("#toggle-header").bind('click', window.toggleHeader);	
+	$("#toggle-header").bind('click', window.toggleHeader);
 });

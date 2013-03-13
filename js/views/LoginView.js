@@ -22,8 +22,10 @@ window.LoginView = Backbone.View.extend({
 		var username = $("input[name='username']").val();
 		var password = $("input[name='password']").val();
 
+		password = hex_md5(password);
+
 		$.ajax({
-			url: 'http://localhost:10010/auth',
+			url: 'http://nfradin.fr:10010/auth',
 			data: {username: username, password: password},
 			method: 'POST',
 			dataType: 'json',
@@ -33,6 +35,7 @@ window.LoginView = Backbone.View.extend({
 				if(user) {
 					console.log("user.lastLogin: " + user.lastLogin);
 					setCookie("user-id", user._id);
+					setCookie("user-username", user.username);
 					setCookie("user-last-login", user.lastLogin);
 				}
 			},
