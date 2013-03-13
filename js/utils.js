@@ -97,6 +97,24 @@ window.userIsLoggedIn = function(options) {
   window.userIsLoggedInWithRoles([], options);
 }
 
+window.findUserById = function(id) {
+  var userModel = new UserModel();
+  var url = userModel.urlRoot;
+  if(id) {
+    url += "/" + id;
+    var user;
+    $.ajax({
+      url: url,
+      async: false,
+      dataType: 'json',
+      success: function(model){
+        user = new UserModel(model);
+      }
+    });
+    return user;
+  }
+}
+
 window.userIsLoggedInWithRoles = function(roles, options) {
 
   // Define options and roles

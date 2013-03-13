@@ -8,7 +8,7 @@ var ArticleModel = Backbone.Model.extend({
 		"lastUpdated": null,
 		"published": false
 	},
-	urlRoot: "http://localhost:10010/articles"
+	urlRoot: "http://localhost:10010/articles",
 })
 
 

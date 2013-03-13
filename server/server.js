@@ -226,15 +226,14 @@ var createArticle = function(req, res, next) {
 	var article = new Object();
 	article.title = req.params.title,
 	article.body = req.params.body,
-	article.author = new ObjectId(req.params.author),
-	//article.lastUpdated = article.dateCreated = new Date();
-
-	console.log("Article:" + article.tile);
+	article.author = new ObjectID(req.params.author),
+	article.lastUpdated = article.dateCreated = new Date();
 
 	db.collection('articles').insert(article, function(err, result) {
 		if(err || !result) res.send(500, err);
 		else res.send(200, result);
 	});
+
 
 	return next();
 }
@@ -245,9 +244,8 @@ var updateArticle = function(req, res, next) {
 	var article = new Object();
 	article.title = req.params.title,
 	article.body = req.params.body,
-	//article.author = new ObjectId(req.params.author),
-	//article.lastUpdated = req.params.lastUpdated,
-	//article.published = req.params.published
+	article.lastUpdated = new Date(),
+	article.published = req.params.published;
 
 	db.collection('articles').update({ _id: new ObjectID(req.params.id) }, {$set: article}, function(err, result) {
   		if(err || !result || result == 0) {

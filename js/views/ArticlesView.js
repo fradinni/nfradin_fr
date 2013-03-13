@@ -4,8 +4,7 @@ window.ArticlesView = Backbone.View.extend({
 		"#articles-list tr": {
 			dataSource: function(view){ return view.model; },
 			itemEvents: {
-				"click .delete": "deleteArticle(_id)",
-				"click .edit": "editArticle(_id)"
+				"click .delete": "deleteArticle(_id)"				
 			}
 		}		
 	},
@@ -24,12 +23,12 @@ window.ArticlesView = Backbone.View.extend({
 		return this;
 	},
 
-	editArticle: function(event, view, params) {
-		var article = this.model.get(params['_id']);
-	},
-
 	deleteArticle: function(event, view, params) {
-		alert('Delete: ' + params['_id']);
+		event.preventDefault();
+		var article = this.model.get(params['_id']);
+		if(article && confirm("Delete article: '" + article.get('title') + "'")) {
+			article.destroy();
+		}
 	}
 
 });
@@ -38,7 +37,9 @@ window.ArticlesView = Backbone.View.extend({
 window.CreateArticleView = Backbone.View.extend({
 
 	events: {
-		"click #btn-save-article": "saveArticle"
+		"click #btn-save-article": "saveArticle",
+		"click #status-published": "publishArticle",
+		"click #status-draft": "draftArticle"
 	},
 
 	initialize: function() {
@@ -46,15 +47,45 @@ window.CreateArticleView = Backbone.View.extend({
 	},
 
 	render: function() {
+		this.author = findUserById(this.model.get('author'));
+
 		$("#site-nav").hide();
 		$("#admin-nav").show();
 		if(this.model) {
 			$(this.el).html(this.template( this.model.toJSON() ));
+			$("#_id", this.el).val(this.model.get('_id'));
+			$("#ui-id", this.el).val(this.model.get('_id'));
 		} else {
 			$(this.el).html(this.template());
 		}
 		
 		return this;
+	},
+
+	publishArticle: function(event) {
+		if(!this.model.get('_id')) {
+			alert('Please save article first !');
+			return;
+		}
+		var self = this;
+		this.model.save({published: true}, {
+			success: function() {
+				self.render();
+			}
+		});
+	},
+
+	draftArticle: function(event) {
+		if(!this.model.get('_id')) {
+			alert('Please save article first !');
+			return;
+		}
+		var self = this;
+		this.model.save({published: false}, {
+			success: function() {
+				self.render();
+			}
+		});
 	},
 
 	saveArticle: function(event) {
@@ -72,7 +103,12 @@ window.CreateArticleView = Backbone.View.extend({
 			var article = new ArticleModel();
 			article.save(formData, {
 				success: function (res) {
-		            alert('Article saved !');
+					self.model.fetch({
+						success: function() {
+							alert('Article saved !');
+							self.render();
+						}
+					});
 		        }, 
 		        error: function(err) {
 		        	alert('Unable to save article !');
@@ -85,11 +121,15 @@ window.CreateArticleView = Backbone.View.extend({
 			var article = this.model;
 			article.save(formData, { 
 				success: function() { 
-					console.log("User updated !");
-					self.model.fetch(); 
+					self.model.fetch({
+						success: function() {
+							alert('Article saved !');
+							self.render();
+						}
+					});
 				}, 
 				error: function(){
-					alert('Unable to save user !');
+					alert('Unable to save article !');
 				} 
 			});
 		}

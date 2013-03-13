@@ -2,14 +2,14 @@
 
 <form id="article-form">
 
-	<!-- <input type="hidden" name="_id" id="_id" value="<%=_id%>" /> -->
+	<input type="hidden" name="_id" id="_id" />
 
 	<div class="row-fluid">
 		<div class="span9">
 			<div class="control-group">
 			    <label class="control-label" for="title">Article title:</label>
 			    <div class="controls">
-			      	<input name="title" type="text" style="width: 98%;" id="title" value="<%=title%>">
+			      	<input name="title" type="text" style="width: 98%;" id="title" value="<%-title%>">
 			    </div>
 			</div>
 
@@ -45,7 +45,7 @@
 					</header>
 				</div>
 
-				<div><textarea name="body" id="wysihtml5-editor" placeholder="Enter your text ..." autofocus><%=body%></textarea></div>
+				<div><textarea name="body" id="wysihtml5-editor" placeholder="Enter your text ..." autofocus><%-body%></textarea></div>
 			</div>
 
 			<input type="submit" id="btn-save-article" class="btn btn-success" href="javascript:;" style="width: 100%;" value="Enregistrer l'article"></a>
@@ -54,13 +54,35 @@
 			<div class="control-group">
 			    <label class="control-label" for="title">Id:</label>
 			    <div class="controls">
-			      	<input name="_id" type="text" id="_id" value="<%=_id%>" />
+			      	<input type="text" id="ui_id" value="<% if(this.model.get('_id')) print(_id) %>" disabled/>
 			    </div>
 			</div>
 			<div class="control-group">
 			    <label class="control-label" for="title">Author:</label>
 			    <div class="controls">
-			      	<input name="author" type="text" id="author" value="<%=author.get('username')%>" disabled>
+			      	<input type="text" value="<%=this.author.get('username')%>">
+			      	<input name="author" type="hidden" id="author" value="<%=this.author.get('_id')%>">
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="title">Status:</label>
+			    <div class="controls">
+			      	<div class="btn-group" data-toggle="buttons-checkbox">
+			      		<%
+			      			if(!this.model.get('published') || this.model.get('published') == "false") {
+			      				%>
+			      				<button type="button" class="btn btn-danger">Draft</button>
+					  			<button id="status-published" type="button" class="btn">Published</button>
+			      				<%
+			      			} else {
+			      				%>
+			      				<button id="status-draft" type="button" class="btn">Draft</button>
+					  			<button type="button" class="btn btn-success">Published</button>
+			      				<%
+			      			}
+			      		%>
+						<input type="hidden" name="published" id="published" value="<%= this.model.get('published') %>" />
+					</div>
 			    </div>
 			</div>
 		</div>

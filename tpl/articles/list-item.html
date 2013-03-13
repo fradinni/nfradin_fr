@@ -1,8 +1,28 @@
-<td><%=title%></td>
-<td><%=author%></td>
-<td><%=dateCreated%></td>
-<td><%=lastUpdated%></td>
-<td><%published%></td>
+<td><%- title %></td>
+<td>
+	<%
+		var userModel = new UserModel();
+		var url = userModel.urlRoot;
+		if(author) {
+			url += "/" + author;
+			var username = "";
+			$.ajax({
+				url: url,
+				async: false,
+				dataType: 'json',
+				success: function(model){
+					username = model.username;
+				}
+			});
+			print(username);
+		}
+	%>
+</td>
+<td>
+	<%= dateFormat('d/m/Y H:i:s', dateCreated) %>
+</td>
+<td><%= dateFormat('d/m/Y H:i:s', lastUpdated) %></td>
+<td><%= published %></td>
 <td width="180" style="text-align: center;">
 	<a href="#admin/articles/edit/<%=_id%>" class="edit btn btn-warning"><i class="icon-pencil"></i> Edit</a>
 	<a href="#" class="delete btn btn-danger"><i class="icon-trash"></i> Delete</a>

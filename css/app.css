@@ -90,3 +90,8 @@ h5 {
 	vertical-align: bottom;
 	margin-left: 10px;
 }
+
+
+.btn-group .btn {
+	width: 110px !important;
+}

@@ -62,13 +62,13 @@ var AppRouter = Backbone.Router.extend({
 		var self = this;
 
 		userIsLoggedInWithRoles(['ROLE_ADMIN','ROLE_EDITOR'], {
-			success: function(loggedIndUser) {
+			success: function(loggedInUser) {
 
 				switch(action) {
 
 					// NEW ARTICLE
 					case 'new':
-						self.changePage( new CreateArticleView({ model: new ArticleModel({author: loggedIndUser}) }) );
+						self.changePage( new CreateArticleView({ model: new ArticleModel({author: loggedInUser.get('_id')}) }) );
 					break;
 
 
@@ -77,7 +77,7 @@ var AppRouter = Backbone.Router.extend({
 						var articleToEdit = new ArticleModel({_id: id});
 						articleToEdit.fetch({
 							success: function(model) {
-								model.set({author: loggedIndUser});
+								model.set({author: loggedInUser.get('_id')});
 								self.changePage(new CreateArticleView({model: model}))
 							},
 							error: function(){
