@@ -9,11 +9,6 @@ window.ArticlesView = Backbone.View.extend({
 		$("#admin-nav").show();
 		$(this.el).html(this.template());
 
-		//this.bindDataSources();	// Bind datasources to view
-
-		// Render subView
-		//$(this.el).append(new CreateUserView({ model: {parentView: this} }).render().el);
-		
 		return this;
 	}
 
@@ -30,8 +25,7 @@ window.CreateArticleView = Backbone.View.extend({
 		$("#site-nav").hide();
 		$("#admin-nav").show();
 		$(this.el).html(this.template());
-
+		
 		return this;
-	},
-
+	}
 });

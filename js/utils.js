@@ -94,6 +94,7 @@ window.userIsLoggedInWithRoles = function(roles, options) {
   var userLastLogin = getCookie("user-last-login");
 
   // If cookies were not found
+  console.log("UserId = " + userId);
   if(!userId || !userLastLogin) {
     options.error();
   } 

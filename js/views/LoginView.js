@@ -25,7 +25,8 @@ window.LoginView = Backbone.View.extend({
 		$.ajax({
 			url: 'http://localhost:10010/auth',
 			data: {username: username, password: password},
-			method: 'post',
+			method: 'POST',
+			dataType: 'json',
 			async: false,
 			success: function(user) {
 				console.log("User found: " + user.username);

@@ -23,7 +23,7 @@ var AppRouter = Backbone.Router.extend({
 	admin: function() {
 		var self = this;
 
-		userIsLoggedInWithRoles(['ROLE_ADMIN'],{
+		userIsLoggedInWithRoles(['ROLE_ADMIN'], {
 			success: function(model) {
 				$("#site-nav").hide();
 				self.changePage(new AdminView());
@@ -32,6 +32,7 @@ var AppRouter = Backbone.Router.extend({
 				});
 			},
 			error: function(err) {
+				console.log("User is not logged in !");
 				self.changePage(new LoginView({ model: {askedUrl: "admin"} }));
 			}
 		});
