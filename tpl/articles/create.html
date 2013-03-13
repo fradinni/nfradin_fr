@@ -1,48 +1,71 @@
 <h5>New article</h5>
 
-<form>
-	<div class="control-group">
-	    <label class="control-label" for="title">Article title:</label>
-	    <div class="controls">
-	      	<input name="title" type="text" style="width: 98%;" id="title">
-	    </div>
-	</div>
-	<div class="control-group">
-		<div id="wysihtml5-editor-toolbar" style="" class="">
-			<header>
-				<ul class="commands">
-					<li data-wysihtml5-command="bold" title="Make text bold (CTRL + B)" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="italic" title="Make text italic (CTRL + I)" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="insertUnorderedList" title="Insert an unordered list" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="insertOrderedList" title="Insert an ordered list" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="createLink" title="Insert a link" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="insertImage" title="Insert an image" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Insert headline 1" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Insert headline 2" class="command" href="javascript:;" unselectable="on"></li>
-					<li data-wysihtml5-command-group="foreColor" class="fore-color" title="Color the selected text">
-					<ul>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="black" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="silver" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="gray" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="maroon" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="purple" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="olive" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="navy" href="javascript:;" unselectable="on"></li>
-						<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue" href="javascript:;" unselectable="on"></li>
-					</ul>
-					</li>
-					<li data-wysihtml5-command="insertSpeech" title="Insert speech" class="command" href="javascript:;" unselectable="on" style="position: relative;"><div style="left: 0px; margin: 0px; opacity: 0; overflow: hidden; padding: 0px; position: absolute; top: 0px; z-index: 1; width: 70px; height: 40px;"><input style="cursor: inherit; font-size: 50px; height: 50px; margin-top: -25px; outline: 0px; padding: 0px; position: absolute; right: -4px; top: 50%;" x-webkit-speech="" speech=""></div></li>
-					<li data-wysihtml5-action="change_view" title="Show HTML" class="action" href="javascript:;" unselectable="on"></li>
-				</ul>
-			</header>
+<form id="article-form">
+
+	<!-- <input type="hidden" name="_id" id="_id" value="<%=_id%>" /> -->
+
+	<div class="row-fluid">
+		<div class="span9">
+			<div class="control-group">
+			    <label class="control-label" for="title">Article title:</label>
+			    <div class="controls">
+			      	<input name="title" type="text" style="width: 98%;" id="title" value="<%=title%>">
+			    </div>
+			</div>
+
+			<div class="control-group">
+				<div id="wysihtml5-editor-toolbar" style="" class="">
+					<header>
+						<ul class="commands">
+							<li data-wysihtml5-command="bold" title="Make text bold (CTRL + B)" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="italic" title="Make text italic (CTRL + I)" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="insertUnorderedList" title="Insert an unordered list" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="insertOrderedList" title="Insert an ordered list" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="createLink" title="Insert a link" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="insertImage" title="Insert an image" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Insert headline 1" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Insert headline 2" class="command" href="javascript:;" unselectable="on"></li>
+							<li data-wysihtml5-command-group="foreColor" class="fore-color" title="Color the selected text">
+							<ul>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="black" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="silver" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="gray" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="maroon" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="purple" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="olive" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="navy" href="javascript:;" unselectable="on"></li>
+								<li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue" href="javascript:;" unselectable="on"></li>
+							</ul>
+							</li>
+							<li data-wysihtml5-command="insertSpeech" title="Insert speech" class="command" href="javascript:;" unselectable="on" style="position: relative;"><div style="left: 0px; margin: 0px; opacity: 0; overflow: hidden; padding: 0px; position: absolute; top: 0px; z-index: 1; width: 70px; height: 40px;"><input style="cursor: inherit; font-size: 50px; height: 50px; margin-top: -25px; outline: 0px; padding: 0px; position: absolute; right: -4px; top: 50%;" x-webkit-speech="" speech=""></div></li>
+							<li data-wysihtml5-action="change_view" title="Show HTML" class="action" href="javascript:;" unselectable="on"></li>
+						</ul>
+					</header>
+				</div>
+
+				<div><textarea name="body" id="wysihtml5-editor" placeholder="Enter your text ..." autofocus><%=body%></textarea></div>
+			</div>
+
+			<input type="submit" id="btn-save-article" class="btn btn-success" href="javascript:;" style="width: 100%;" value="Enregistrer l'article"></a>
 		</div>
-
-		<div><textarea name="body" id="wysihtml5-editor" placeholder="Enter your text ..." autofocus></textarea></div>
+		<div class="span3">
+			<div class="control-group">
+			    <label class="control-label" for="title">Id:</label>
+			    <div class="controls">
+			      	<input name="_id" type="text" id="_id" value="<%=_id%>" />
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="title">Author:</label>
+			    <div class="controls">
+			      	<input name="author" type="text" id="author" value="<%=author.get('username')%>" disabled>
+			    </div>
+			</div>
+		</div>
+	</div>	
 </div>
-
-<input type="submit" class="btn btn-success" href="javascript:;" style="width: 100%;" value="Enregistrer l'article"></a>
 </form>
 
 <script type="text/javascript">

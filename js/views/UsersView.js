@@ -49,7 +49,7 @@ window.UsersView = Backbone.View.extend({
 		var self = this;
 
 		// Serialize form datas
-		var formData = $("#create-user-form").serializeObject();
+		var formData = $("#article-form").serializeObject();
 
 		// New User
 		if(!formData["_id"]) {

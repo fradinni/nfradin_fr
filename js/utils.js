@@ -70,6 +70,29 @@ $.fn.serializeObject = function() {
    return o;
 }
 
+window.withLoggedInUser = function(options) {
+  // Define options
+  options || (options = {});
+  
+  var success = options.success;
+  options.success = function(model) {
+    if(success) success(model);
+  }
+  var error = options.error;
+  options.error = function(err) {
+    if(error) error(err);
+  }
+
+  userIsLoggedIn({
+    success: function(user) {
+      options.success(user);
+    },
+    error: function() {
+      options.error();
+    }
+  })
+} 
+
 window.userIsLoggedIn = function(options) {
   window.userIsLoggedInWithRoles([], options);
 }
@@ -139,4 +162,16 @@ window.userIsLoggedInWithRoles = function(roles, options) {
 
   } // end else
 
+}
+
+
+window.toggleHeader = function(e) {
+  e.preventDefault();
+  if($(".subhead").css('display') == 'block') {
+    $(".subhead").slideUp();
+    $("#toggle-header i").attr('class', 'icon-plus');
+  } else {
+    $(".subhead").slideDown();
+    $("#toggle-header i").attr('class', 'icon-minus');
+  }
 }

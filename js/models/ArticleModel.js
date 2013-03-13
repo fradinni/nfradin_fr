@@ -4,9 +4,9 @@ var ArticleModel = Backbone.Model.extend({
 		"title": "New article...",
 		"body" : "Type your article text here...",
 		"author" : null,
-		"dateCreated": new Date(),
-		"lastUpdated": new Date(),
-		"puplished": false
+		"dateCreated": null,
+		"lastUpdated": null,
+		"published": false
 	},
 	urlRoot: "http://localhost:10010/articles"
 })

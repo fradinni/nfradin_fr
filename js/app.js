@@ -6,7 +6,8 @@ var AppRouter = Backbone.Router.extend({
 		"logout": "logout",
 		"admin/users": "users",
 		"admin/articles": "articles",
-		"admin/articles/:action": "articles"
+		"admin/articles/:action": "articles",
+		"admin/articles/:action/:id": "articles"
 		//"admin/articles/new": "newArticles"
 	},
 
@@ -57,17 +58,42 @@ var AppRouter = Backbone.Router.extend({
 		});
 	},
 
-	articles: function(action) {
+	articles: function(action, id) {
 		var self = this;
 
 		userIsLoggedInWithRoles(['ROLE_ADMIN','ROLE_EDITOR'], {
-			success: function(model) {
+			success: function(loggedIndUser) {
 
 				switch(action) {
+
+					// NEW ARTICLE
 					case 'new':
-						self.changePage(new CreateArticleView({model: articles}));
+						self.changePage( new CreateArticleView({ model: new ArticleModel({author: loggedIndUser}) }) );
 					break;
 
+
+					// EDIT ARTICLE
+					case 'edit':
+						var articleToEdit = new ArticleModel({_id: id});
+						articleToEdit.fetch({
+							success: function(model) {
+								model.set({author: loggedIndUser});
+								self.changePage(new CreateArticleView({model: model}))
+							},
+							error: function(){
+								var articles = new ArticleCollection();
+								articles.fetch({
+									success: function() {
+										self.changePage(new ArticlesView({model: articles}));
+									}
+								});
+							}
+						})
+						
+					break;
+
+
+					// LIST ARTICLES
 					default:
 						var articles = new ArticleCollection();
 						articles.fetch({
@@ -119,7 +145,9 @@ $(document).ready(function() {
 		debug: function(){}
 	});
 	
-	var app = new AppRouter();
+	window.APP = new AppRouter();
 	Backbone.history.start();
-	
+
+	$("#toggle-header").unbind('click');
+	$("#toggle-header").bind('click', window.toggleHeader);	
 });

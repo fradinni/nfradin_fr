@@ -219,35 +219,38 @@ var getArticle = function(req, res, next) {
 	})
 }
 
-var createArticle = function(req, req, next) {
+var createArticle = function(req, res, next) {
 	logRequest(req);
 
+	console.log("Create article...")
 	var article = new Object();
 	article.title = req.params.title,
 	article.body = req.params.body,
 	article.author = new ObjectId(req.params.author),
-	article.lastUpdated = article.dateCreated = new Date();
+	//article.lastUpdated = article.dateCreated = new Date();
+
+	console.log("Article:" + article.tile);
 
 	db.collection('articles').insert(article, function(err, result) {
-		if(err || !result) res.send(err);
+		if(err || !result) res.send(500, err);
 		else res.send(200, result);
 	});
 
 	return next();
 }
 
-var updateArticle = function(req, req, next) {
+var updateArticle = function(req, res, next) {
 	logRequest(req);
 
 	var article = new Object();
 	article.title = req.params.title,
 	article.body = req.params.body,
-	article.author = new ObjectId(req.params.author),
-	article.lastUpdated = req.params.lastUpdated,
-	article.published = req.params.published
+	//article.author = new ObjectId(req.params.author),
+	//article.lastUpdated = req.params.lastUpdated,
+	//article.published = req.params.published
 
 	db.collection('articles').update({ _id: new ObjectID(req.params.id) }, {$set: article}, function(err, result) {
-  		if(err || result == 0) {
+  		if(err || !result || result == 0) {
   			res.send(500, err);
   		}
   		res.send(200, result);
@@ -256,7 +259,7 @@ var updateArticle = function(req, req, next) {
   	return next();
 }
 
-var deleteArticle = function(req, req, next) {
+var deleteArticle = function(req, res, next) {
 	logRequest(req);
 
 	db.collection('articles').remove({_id: new ObjectID(req.params.id)}, function(err, result) {
