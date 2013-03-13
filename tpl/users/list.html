@@ -1,20 +1,67 @@
 <h5>Users list</h5>
 
 <div class="control-bar">
-	<a href="#createUserModal" data-toggle="modal" role="button" class="btn btn-success"><i class="icon-plus"></i> Add user...</a>
+	<a href="#" id="btn-user-dialog" class="btn btn-success"><i class="icon-plus"></i> Add user...</a>
 </div>
 <br />
 <table class="table table-bordered table-striped table-hover">
 	<thead>
 		<tr>
-			<th>#id</th>
 			<th>username</th>
 			<th>firstname</th>
 			<th>lastname</th>
 			<th>email</th>
+			<th>roles</th>
 			<th style="text-align: center;">actions</th>
 		</tr>
 	</thead>
 	<tbody id="users-list" ds-item-template="users/list-item">
 	</tbody>
 </table>
+
+<form>
+
+<!-- <div id="wysihtml5-editor-toolbar" style="" class="">
+      <header>
+        <ul class="commands">
+          <li data-wysihtml5-command="bold" title="Make text bold (CTRL + B)" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="italic" title="Make text italic (CTRL + I)" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="insertUnorderedList" title="Insert an unordered list" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="insertOrderedList" title="Insert an ordered list" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="createLink" title="Insert a link" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="insertImage" title="Insert an image" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Insert headline 1" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Insert headline 2" class="command" href="javascript:;" unselectable="on"></li>
+          <li data-wysihtml5-command-group="foreColor" class="fore-color" title="Color the selected text">
+            <ul>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="silver" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="gray" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="maroon" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="purple" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="olive" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="navy" href="javascript:;" unselectable="on"></li>
+              <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue" href="javascript:;" unselectable="on"></li>
+            </ul>
+          </li>
+          <li data-wysihtml5-command="insertSpeech" title="Insert speech" class="command" href="javascript:;" unselectable="on" style="position: relative;"><div style="left: 0px; margin: 0px; opacity: 0; overflow: hidden; padding: 0px; position: absolute; top: 0px; z-index: 1; width: 70px; height: 40px;"><input style="cursor: inherit; font-size: 50px; height: 50px; margin-top: -25px; outline: 0px; padding: 0px; position: absolute; right: -4px; top: 50%;" x-webkit-speech="" speech=""></div></li>
+          <li data-wysihtml5-action="change_view" title="Show HTML" class="action" href="javascript:;" unselectable="on"></li>
+        </ul>
+      </header>
+    </div>
+
+
+
+	<div><textarea id="wysihtml5-editor" placeholder="Enter your text ..." autofocus></textarea></div>
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var editor = new wysihtml5.Editor("wysihtml5-editor", {
+	        toolbar:     "wysihtml5-editor-toolbar",
+	        stylesheets: ["css/editor.css"],
+	        parserRules: wysihtml5ParserRules
+	    });
+	});
+</script> -->

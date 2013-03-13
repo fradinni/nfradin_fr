@@ -1,44 +1,3 @@
-window.userIsAdmin = function(callbacks) {
-	//var isAdmin = getCookie("isAdmin");
-	var userId = getCookie("userId");
-	console.log("Check if user is admin: " + userId);
-
-	if(!userId) {
-		return false;
-	} else {
-
-		var user = new UserModel({_id: userId});
-		user.fetch({
-			success: function(model) {
-				console.log("User was found: " + model.get('username'));
-				if(callbacks) callbacks["success"](user);
-			},
-			error: function() {
-				console.log("User was not found: " + user.get('_id'));
-				if(callbacks) callbacks["error"]();
-			}
-		});
-
-		/*
-		var admin = false;
-		$.ajax({
-			url: 'http://localhost:10010/user/'+userId,
-			dataType: 'json',
-			async: false,
-			success: function(data) {
-				var result = _.find(data.roles, function(obj){ return obj == "ROLE_ADMIN"} );
-				if(!result) {
-					admin = false;
-				} else {
-					admin = true;
-				}
-			}
-		});
-		*/
-		return true;
-	}
-}
-
 window.LoginView = Backbone.View.extend({
 	events: {
 		"click #login_submit": "auth"
@@ -58,6 +17,7 @@ window.LoginView = Backbone.View.extend({
 	},
 
 	auth: function(event) {
+		//event.preventDefault();
 		var self = this;
 		var username = $("input[name='username']").val();
 		var password = $("input[name='password']").val();
@@ -69,14 +29,15 @@ window.LoginView = Backbone.View.extend({
 			async: false,
 			success: function(user) {
 				console.log("User found: " + user.username);
-				var result = _.find(user.roles, function(obj){ return obj == "ROLE_ADMIN"} );
-				if(result) {
-					setCookie("userId", user._id);
+				if(user) {
+					console.log("user.lastLogin: " + user.lastLogin);
+					setCookie("user-id", user._id);
+					setCookie("user-last-login", user.lastLogin);
 				}
 			},
 			error: function(err) {
 				event.preventDefault();
-				console.log("Err: " + err);
+				console.log("User was not found !");
 				alert("Username or password is incorrect !");
 				$("input[name='password']").val("");
 			}

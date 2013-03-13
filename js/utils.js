@@ -5,8 +5,7 @@ window.setCookie = function(c_name,value,exdays) {
 	document.cookie=c_name + "=" + c_value;
 }
 
-window.getCookie = function(c_name)
-{
+window.getCookie = function(c_name){
 	var i,x,y,ARRcookies=document.cookie.split(";");
 	for (i=0;i<ARRcookies.length;i++) {
   		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
@@ -55,8 +54,7 @@ window.dateFormat =function(format, date) {
   });
 }
 
-$.fn.serializeObject = function()
-{
+$.fn.serializeObject = function() {
    var o = {};
    var a = this.serializeArray();
    $.each(a, function() {
@@ -70,4 +68,74 @@ $.fn.serializeObject = function()
        }
    });
    return o;
-};
+}
+
+window.userIsLoggedIn = function(options) {
+  window.userIsLoggedInWithRoles([], options);
+}
+
+window.userIsLoggedInWithRoles = function(roles, options) {
+
+  // Define options and roles
+  options || (options = {});
+  roles || (roles = []);
+
+  var success = options.success;
+  options.success = function(model) {
+    if(success) success(model);
+  }
+  var error = options.error;
+  options.error = function(err) {
+    if(error) error(err);
+  }
+
+  // Try to get cookies
+  var userId = getCookie("user-id");
+  var userLastLogin = getCookie("user-last-login");
+
+  // If cookies were not found
+  if(!userId || !userLastLogin) {
+    options.error();
+  } 
+
+  // If cookies were found
+  else {
+
+    // Try to retrieve user from database
+    var user = new UserModel({_id: userId});
+    user.fetch({
+
+      // If user was found
+      success: function(model) {
+
+        // Check if user last login timestamp is correct
+        if(model.get('lastLogin') == userLastLogin) {
+
+          var hasRoles = 0;
+
+          // Iterate on each required role
+          _.each(roles, function(role){   
+            var containsRole = (_.indexOf(model.get('roles'), role) > -1);
+            if(containsRole) hasRoles ++;
+          });
+
+          if(hasRoles == roles.length) {
+            options.success(model);
+          } else {
+            options.error();
+          }
+        } else {
+          options.error();
+        }
+      },
+
+      // If user was not found
+      error: function(err) {
+        options.error(err);
+      }
+
+    });
+
+  } // end else
+
+}

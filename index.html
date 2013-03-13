@@ -5,8 +5,9 @@
 
     <!-- Stylesheets -->
 	<!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="http://bootswatch.com/cosmo/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootwatch.min.css" />
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/html_editor.css" />
     <link rel="stylesheet" href="css/app.css" />
 
     <!-- Libraries -->
@@ -18,13 +19,17 @@
     <script type="text/javascript" src="lib/backbone.templates.js"></script>
     <script type="text/javascript" src="lib/backbone.query-min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/html_editor/parser_rules/advanced.js"></script>
+    <script type="text/javascript" src="lib/html_editor/dist/wysihtml5-0.3.0.js"></script>
     
     <!-- Application Scripts -->
     <script type="text/javascript" src="js/models/UserModel.js"></script>
+    <script type="text/javascript" src="js/models/ArticleModel.js"></script>
     <script type="text/javascript" src="js/views/LoginView.js"></script>
     <script type="text/javascript" src="js/views/HomeView.js"></script>
     <script type="text/javascript" src="js/views/AdminView.js"></script>
     <script type="text/javascript" src="js/views/UsersView.js"></script>
+    <script type="text/javascript" src="js/views/ArticlesView.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </head>
@@ -35,7 +40,7 @@
             <div class="row-fluid">
                 <div class="span6">
                     <h1>Nicolas FRADIN</h1>
-                    <p>Geek polyvalant Grails/Java, HTML5, JS, CSS3</p>
+                    <p>&nbsp;Le blog d'un Geek...</p>
                 </div>
                 <div class="span6 avatar">
                     <img class="" src="img/avatar.jpg" width="180" height="180" />
@@ -47,6 +52,7 @@
             <li class="active"><a href="#">Home page</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="#login">Login</a></li>
         </ul>
 
         <ul class="nav nav-pills main-nav" id="admin-nav">

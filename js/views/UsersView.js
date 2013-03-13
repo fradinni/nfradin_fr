@@ -11,6 +11,7 @@ window.UsersView = Backbone.View.extend({
 	},
 
 	events: {
+		"click #btn-user-dialog": "showUserDialog",
 		"click #save_user": "saveUser"
 	},
 
@@ -22,11 +23,25 @@ window.UsersView = Backbone.View.extend({
 		$("#site-nav").hide();
 		$("#admin-nav").show();
 		$(this.el).html(this.template());
+
 		this.bindDataSources();	// Bind datasources to view
 
 		// Render subViews
 		$(this.el).append(new CreateUserView({ model: {parentView: this} }).render().el);
+		
 		return this;
+	},
+
+	showUserDialog: function(e) {
+		e.preventDefault();
+
+		// Show modal
+		$("#createUserModal").find(':input').each(function() { 
+			$(this).val(''); 
+			$(this).removeAttr('disabled');
+		});
+		$("#modal-title").html("Add user");
+		$("#createUserModal").modal('show');
 	},
 
 	saveUser: function(e) {
@@ -38,22 +53,16 @@ window.UsersView = Backbone.View.extend({
 
 		// New User
 		if(!formData["_id"]) {
-			var user = new UserModel(formData);
-			user.save();
-			/*
-			$.ajax({
-				url: 'http://localhost:10010/user',
-				type: "POST",
-				async: true,
-				data: formData,
-				success: function() { 
-					self.model.fetch(); 
-				}, 
-				error: function(){
-					alert('Unable to add user !');
-				} 
+			// remove empty _id field from datas
+			delete formData["_id"];
+
+			// Create and insert user
+			var user = new UserModel();
+			user.save(formData, {
+				success: function (user) {
+		            self.model.fetch();
+		        }
 			});
-			*/
 		} 
 
 		// Edit user
@@ -71,7 +80,6 @@ window.UsersView = Backbone.View.extend({
 		}
 
 		// Hide modal
-		$("#createUserModal").find(':input').each(function() { $(this).val(''); });
 		$("#createUserModal").modal('hide');
 	},
 
@@ -80,11 +88,19 @@ window.UsersView = Backbone.View.extend({
 
 		var user = this.model.get(params['_id']);
 
-		// Fill form fields
+		// Empty form fields
+		$("#createUserModal").find(':input').each(function() { $(this).val(''); });
+
+		// Fill form fields with model values
 		$("#createUserModal").find(':input').each(function() { 
-			$(this).val(user.get($(this).attr('id'))); 
+			$(this).val(user.get($(this).attr('id')));
 		});
 
+		// Set username disabled
+		$("#createUserModal #username").attr('disabled', 'disabled');
+
+		// Change title
+		$("#modal-title").html("Edit user");
 
 		// Show modal
 		$("#createUserModal").modal('show');

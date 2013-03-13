@@ -2,9 +2,9 @@
 	
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel">Add user</h3>
+		<h3 id="modal-title">Add user</h3>
 	</div>
-	<div class="modal-body">
+	<div class="modal-body" style="max-height: 460px !important;">
 		<form id="create-user-form">
 			<input type="hidden" name="_id" id="_id" />
 			<div class="control-group">
@@ -18,7 +18,7 @@
 		    <div class="control-group">
 		        <label class="control-label" for="password">Password:</label>
 		        <div class="controls">
-		          	<input name="password" type="text" class="input-xlarge" id="password">
+		          	<input name="password" type="password" class="input-xlarge" id="password">
 		          	<!-- <p class="help-block">In addition to freeform text, any HTML5 text-based input appears like so.</p> -->
 		        </div>
 		    </div>
@@ -57,7 +57,7 @@
 	    </form>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		<button id="save_user" class="btn btn-primary">Save changes</button>
+		<button id="cancel_edit" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button id="save_user" class="btn btn-primary">Save...</button>
 	</div>
 </div>
